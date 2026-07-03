@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gagyeong Park — Package Design for Signal Integrity of LPDDR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#FFFFFF;
+  --ink:#0E0E0E;
+  --text:#1A1A1A;
+  --muted:#6A6A6A;
+  --line:#E4E4E4;
+  --line-soft:#EFEFEF;
+  --surface:#FFFFFF;
+  --navy:#132441;        /* 곤색 배너 (banner) */
+  --navy-2:#1E355C;      /* 배너 hover */
+  --accent:#1B335C;      /* 흰 배경 위 포인트 (navy) */
+  --scholar:#2C6BED;
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --body:"Inter",-apple-system,system-ui,sans-serif;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+
+/* nav — navy banner */
+header.nav{position:sticky;top:0;z-index:50;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 1px 0 rgba(0,0,0,.04);}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+.nav .brand{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:#fff;}
+.nav ul{display:flex;gap:30px;list-style:none;}
+.nav ul a{font-size:14.5px;color:rgba(255,255,255,.72);transition:color .2s;}
+.nav ul a:hover{color:#fff;}
+
+/* section frame */
+section{padding:80px 0;border-top:1px solid var(--line);}
+section:first-of-type{border-top:none;}
+.sec-title{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.5fr .85fr;gap:48px;align-items:start;}
+.name-row{display:flex;align-items:center;gap:14px;flex-wrap:nowrap;}
+.name-row h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,5.2vw,56px);line-height:1;letter-spacing:-.03em;color:var(--ink);white-space:nowrap;}
+.scholar{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);transition:transform .18s,border-color .2s;}
+.scholar:hover{transform:translateY(-2px);border-color:var(--scholar);}
+.affil{font-size:16px;color:var(--muted);margin-top:20px;max-width:52ch;}
+.contact-line{font-size:16px;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.contact-line a{color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .2s;}
+.contact-line a:hover{border-color:var(--accent);}
+.contact-line .sep{color:var(--line);}
+.sub{font-family:var(--display);font-weight:600;font-size:23px;letter-spacing:-.01em;color:var(--ink);margin:38px 0 14px;}
+.interests{font-size:16.5px;color:var(--text);}
+.edu-item{padding:16px 0;border-bottom:1px solid var(--line-soft);}
+.edu-item:last-child{border-bottom:none;}
+.edu-item .deg{font-weight:600;font-size:16.5px;color:var(--ink);}
+.edu-item .place{font-size:15px;color:var(--text);margin-top:2px;}
+.edu-item .meta{font-size:14px;color:var(--muted);margin-top:3px;}
+.edu-item .meta em{font-style:italic;}
+.photo{width:100%;aspect-ratio:4/5;background:#F1F1F1;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* project cards */
+.projects{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+.card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 34px rgba(19,36,65,.16);}
+.card-img{width:100%;aspect-ratio:16/8;background:#F1F1F1;overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.card-body{padding:20px 22px 22px;}
+.card-body h3{font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:-.01em;color:var(--ink);}
+.card-body .go{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-top:8px;transition:color .2s;}
+.card:hover .card-body .go{color:var(--accent);}
+
+/* publications */
+.pub-group{margin-bottom:40px;}
+.pub-group:last-child{margin-bottom:0;}
+.pub-group h3{font-family:var(--display);font-weight:600;font-size:16px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);}
+.pub-group h3 .count{font-weight:500;font-size:13px;color:var(--muted);letter-spacing:0;text-transform:none;}
+.pub-list{list-style:none;margin-top:14px;border-top:1px solid var(--line);}
+.pub-list li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line-soft);font-size:14.5px;line-height:1.5;}
+.pub-list .n{font-size:12.5px;color:var(--accent);padding-top:2px;font-variant-numeric:tabular-nums;}
+.pub-list .venue{display:block;font-size:13px;color:var(--muted);margin-top:3px;}
+.pub-list .me{font-weight:700;color:var(--ink);}
+.note{font-size:13px;color:var(--muted);margin-bottom:6px;}
+
+/* footer — navy banner */
+footer{background:var(--navy);color:rgba(255,255,255,.72);padding:34px 0;font-size:13px;}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* detail pages */
+.detail{padding:64px 0 40px;}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--muted);margin-bottom:34px;transition:color .2s;}
+.back:hover{color:var(--accent);}
+.detail h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,46px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);max-width:20ch;}
+.d-meta{margin-top:40px;border-top:1px solid var(--line);}
+.d-row{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line-soft);}
+.d-row .k{font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);padding-top:2px;}
+.d-row .v{font-size:16px;color:var(--text);}
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tags span{font-size:13px;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:rgba(19,36,65,.05);}
+.tags a{font-size:13px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 13px;background:rgba(19,36,65,.06);display:inline-flex;align-items:center;gap:6px;transition:background .2s,color .2s;}
+.tags a:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+.tags a .ext{font-size:11px;opacity:.85;}
+.gallery{padding:20px 0 90px;}
+.gallery .wrap{max-width:860px;}
+.media{background:#F2F2F2;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:22px;min-height:240px;display:flex;align-items:center;justify-content:center;}
+.media img,.media video{width:100%;height:auto;display:block;}
+.media video{background:#000;}
+.media .ph{color:#B5B5B5;font-size:13px;font-family:var(--display);padding:40px;text-align:center;}
+.detail-cta{border-top:1px solid var(--line);padding:44px 0 80px;text-align:center;}
+.detail-cta a{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:15px;color:#fff;background:var(--navy);border:1px solid var(--navy);border-radius:10px;padding:12px 22px;transition:background .2s,transform .15s;}
+.detail-cta a:hover{background:var(--navy-2);transform:translateY(-2px);}
+
+/* responsive */
+@media(max-width:820px){
+  .about-grid{grid-template-columns:1fr;gap:34px;}
+  .photo{max-width:340px;aspect-ratio:4/5;}
+  .nav ul{gap:18px;}
+  .nav .brand{display:none;}
+}
+@media(max-width:640px){ .d-row{grid-template-columns:1fr;gap:6px;padding:16px 0;} }
+@media(max-width:520px){ .wrap{padding:0 20px;} section{padding:60px 0;} .media{min-height:180px;} }
+
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">Gagyeong Park</a>
+    <nav>
+      <ul>
+        <li><a href="index.html#about">About Me</a></li>
+        <li><a href="index.html#project">Project</a></li>
+        <li><a href="index.html#publication">Publication</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="detail">
+  <div class="wrap">
+    <a class="back" href="index.html#project">← Projects</a>
+    <h1>Package Design for Signal Integrity of LPDDR</h1>
+    <div class="d-meta">
+      <div class="d-row"><div class="k">My role</div><div class="v">First author (M.S. thesis) — design-parameter study, 3D EM simulation, and signal-integrity analysis</div></div>
+      <div class="d-row"><div class="k">Objective</div><div class="v">Reduce the multiple reflections caused by impedance-mismatched segments—bonding wire, trace, and solder ball—in the DQ channel of an LPDDR memory package, improving signal integrity as the data rate increases.</div></div>
+      <div class="d-row"><div class="k">Approach</div><div class="v">Modifying the bonding-wire and reference-plane structures and the prepreg dielectric constant mitigates the impedance mismatch.</div></div>
+      <div class="d-row"><div class="k">Outcome</div><div class="v"><div class="tags"><span>M.S. Thesis</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery">
+  <div class="wrap">
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_1.jpg" alt="Package Design for Signal Integrity of LPDDR_1.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_1.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_2.jpg" alt="Package Design for Signal Integrity of LPDDR_2.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_2.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_3.jpg" alt="Package Design for Signal Integrity of LPDDR_3.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_3.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_4.jpg" alt="Package Design for Signal Integrity of LPDDR_4.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_4.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_5.jpg" alt="Package Design for Signal Integrity of LPDDR_5.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_5.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+      <figure class="media"><img src="assets/Package Design for Signal Integrity of LPDDR_6.jpg" alt="Package Design for Signal Integrity of LPDDR_6.jpg" loading="lazy" data-name="Package Design for Signal Integrity of LPDDR_6.jpg" onerror="var p=this.parentNode;this.style.display='none';if(!p.querySelector('.ph')){var s=document.createElement('span');s.className='ph';s.textContent=this.dataset.name;p.appendChild(s);}"></figure>
+  </div>
+</div>
+
+<div class="detail-cta">
+  <a href="index.html#project">← Back to all projects</a>
+</div>
+
+</body>
+</html>
