@@ -63,6 +63,10 @@ section:first-of-type{border-top:none;}
 .edu-item .place{font-size:15px;color:var(--text);margin-top:2px;}
 .edu-item .meta{font-size:14px;color:var(--muted);margin-top:3px;}
 .edu-item .meta em{font-style:italic;}
+.skills{display:flex;flex-direction:column;gap:18px;}
+.skill-k{font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.skill-tags span{font-size:14px;color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:#fff;}
 .photo{width:100%;aspect-ratio:4/5;background:#F1F1F1;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
 .photo img{width:100%;height:100%;object-fit:cover;display:block;}
 
@@ -172,20 +176,36 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <h2 class="sub">Education</h2>
         <div class="edu">
           <div class="edu-item">
-            <div class="deg">Ph.D., Department of Aerospace Engineering, KAIST</div>
-            <div class="place">Mar. 2023 – Present</div>
+            <div class="deg">Ph.D., Department of Aerospace Engineering</div>
+            <div class="place">KAIST, Daejeon, Republic of Korea &nbsp;·&nbsp; Mar. 2023 – Present</div>
             <div class="meta">Advisor: Prof. Dae-Young Lee</div>
             <div class="meta">Dissertation in preparation: <em>Integrated Crease-and-Hole Pattern Design Framework for Damage-Free, High-Efficiency Packaging of Membrane Reflectors in Deployable Spaceborne Antennas</em></div>
           </div>
           <div class="edu-item">
-            <div class="deg">M.S., Cho Chun Shik Graduate School of Mobility, KAIST</div>
-            <div class="place">Mar. 2021 – Feb. 2023</div>
+            <div class="deg">M.S., Cho Chun Shik Graduate School of Mobility</div>
+            <div class="place">KAIST, Daejeon, Republic of Korea &nbsp;·&nbsp; Mar. 2021 – Feb. 2023</div>
             <div class="meta">Advisor: Prof. Seungyoung Ahn</div>
             <div class="meta">Thesis: <em>Package Design for Signal Integrity of Low-power Double Data Rate Memory</em></div>
           </div>
           <div class="edu-item">
-            <div class="deg">B.S., School of Mechatronics Engineering, Korea University of Technology and Education</div>
-            <div class="place">Mar. 2017 – Feb. 2021</div>
+            <div class="deg">B.S., School of Mechatronics Engineering</div>
+            <div class="place">Korea University of Technology and Education (KOREATECH), Cheonan, Republic of Korea &nbsp;·&nbsp; Mar. 2017 – Feb. 2021</div>
+          </div>
+        </div>
+
+        <h2 class="sub">Technical Skills</h2>
+        <div class="skills">
+          <div class="skill-group">
+            <div class="skill-k">Design</div>
+            <div class="skill-tags"><span>SolidWorks</span><span>Autodesk Fusion 360</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-k">Simulation</div>
+            <div class="skill-tags"><span>ANSYS Workbench</span><span>ANSYS Electronics</span><span>HSPICE</span><span>Advanced Design System (ADS)</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-k">Programming</div>
+            <div class="skill-tags"><span>MATLAB</span><span>Python</span></div>
           </div>
         </div>
       </div>
